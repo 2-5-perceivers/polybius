@@ -37,10 +37,13 @@ impl PasswordBit {
     }
 
     fn number_to_bit(number: &u16) -> String {
-        // If the number is longer that 2 digits, we only take the last 2 digits
+        // If the number is longer that 2 digits, we only take the last 2 digits. Ensure that if the number is less the 10 we add a 0 in front of it.
         let number = number % 100;
-        // We convert the number to a string
-        number.to_string()
+        if number < 10 {
+            format!("0{}", number)
+        } else {
+            number.to_string()
+        }
     }
 
     /// Create a new PasswordBit instance from a String. It randomly selects one to three characters from the beginning of the string.
