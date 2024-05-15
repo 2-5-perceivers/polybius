@@ -1,5 +1,11 @@
 use anyhow::Result;
 use polybius::user_data::{NumType, Number, UserData};
+use chrono::{Datelike, Utc};
+
+fn get_current_year() -> u16 {
+    let now = Utc::now();
+    now.year().try_into().unwrap()
+}
 
 fn main() -> Result<()> {
     println!("Welcome to Polybius, a smart password generator!!!");
@@ -12,7 +18,7 @@ fn main() -> Result<()> {
     data.numbers_poll.push(Number::new(12, NumType::BirthDay));
     data.numbers_poll.push(Number::new(2005, NumType::BirthDay));
     data.numbers_poll
-        .push(Number::new(2024, NumType::CurrentYear));
+        .push(Number::new(get_current_year(), NumType::CurrentYear));
 
     data.text_poll.push("Apples".into());
     data.text_poll.push("Bananas".into());
