@@ -1,11 +1,15 @@
 use yew::prelude::*;
 
-#[function_component(App)]
-pub fn app() -> Html {
+use crate::components::{form::FormComponent, navbar::NavBar};
+
+#[function_component]
+pub fn App() -> Html {
     html! {
-        <main>
-            <h1>{ "Polybius!" }</h1>
-            <span class="subtitle">{ "from 2.5 Perceivers with " }<i class="heart" /></span>
-        </main>
+        <>
+            <NavBar />
+            <main class="pt-16">
+                <FormComponent />
+            </main>
+        </>
     }
 }

@@ -5,5 +5,6 @@ edition = "2021"
 
 [dependencies]
 yew = { version="0.21.0", features=["csr"] }
+web-sys = "0.3.69"
 polybius-lib = { path = "../polybius-lib" }
 getrandom = { version = "0.2.15", features = ["js"] }
