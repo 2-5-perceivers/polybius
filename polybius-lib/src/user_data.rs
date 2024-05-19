@@ -6,12 +6,19 @@ use crate::password_bits::PasswordBit;
 use rand::seq::SliceRandom;
 
 /// Represents the types of numbers that UserData can store. These types are used to specify the significance of the numbers to the user
+#[derive(Clone, Copy, PartialEq, Debug)]
 pub enum NumType {
     BirthYear,
     BirthMonth,
     BirthDay,
     CurrentYear,
     RelevantNumber,
+}
+
+impl Default for NumType {
+    fn default() -> Self {
+        NumType::RelevantNumber
+    }
 }
 
 impl fmt::Display for NumType {
@@ -26,7 +33,31 @@ impl fmt::Display for NumType {
     }
 }
 
+// Quick and dirty serialization/deserialization for NumType
+impl NumType {
+    pub fn from_string(s: &str) -> Self {
+        match s {
+            "birth_year" => NumType::BirthYear,
+            "birth_month" => NumType::BirthMonth,
+            "birth_day" => NumType::BirthDay,
+            "current_year" => NumType::CurrentYear,
+            _ => NumType::RelevantNumber,
+        }
+    }
+
+    pub fn into_string(self) -> &'static str {
+        match self {
+            NumType::BirthYear => "birth_year",
+            NumType::BirthMonth => "birth_month",
+            NumType::BirthDay => "birth_day",
+            NumType::CurrentYear => "current_year",
+            NumType::RelevantNumber => "relevant_number",
+        }
+    }
+}
+
 /// Represents a numeric value along with its type.
+#[derive(Clone, PartialEq, Debug, Default)]
 pub struct Number {
     /// The numeric value
     pub value: u16,
