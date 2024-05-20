@@ -2,7 +2,9 @@ use polybius_lib::user_data::{NumType, Number};
 use web_sys::{console, HtmlInputElement};
 use yew::prelude::*;
 
-use crate::components::{input_numeric::InputNumeric, input_string::InputString};
+use crate::components::{
+    input_numeric::InputNumeric, input_string::InputString, list_tile_switch::ListTileSwitch,
+};
 
 pub enum Msg {
     AddNumericInput,
@@ -10,11 +12,15 @@ pub enum Msg {
     UpdateNumericValueInput(usize, u16),
     UpdateNumericTypeInput(usize, NumType),
     UpdateStringInput(usize, String),
+    FlipAddYear,
+    FlipAddSymbols,
 }
 
 pub struct FormComponent {
     pub numeric_values: Vec<Number>,
     pub string_values: Vec<String>,
+    pub add_year: bool,
+    pub add_symbols: bool,
 }
 
 impl Component for FormComponent {
@@ -25,6 +31,8 @@ impl Component for FormComponent {
         Self {
             numeric_values: vec![],
             string_values: vec![],
+            add_year: false,
+            add_symbols: true,
         }
     }
 
@@ -46,6 +54,12 @@ impl Component for FormComponent {
             }
             Msg::UpdateStringInput(index, value) => {
                 self.string_values[index] = value;
+            }
+            Msg::FlipAddYear => {
+                self.add_year = !self.add_year;
+            }
+            Msg::FlipAddSymbols => {
+                self.add_symbols = !self.add_symbols;
             }
         }
         true
@@ -108,6 +122,8 @@ impl Component for FormComponent {
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path>
                                     </svg>
                                 </button>
+
+                                <ListTileSwitch title={"Add current year"} subtitle={"This will add the current year to the password numeric information"} checked={self.add_year} onclick={ctx.link().callback(|_| Msg::FlipAddYear)} />
                             </div>
 
                             <div class="sm:col-span-6 lg:col-span-3">
@@ -123,6 +139,8 @@ impl Component for FormComponent {
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path>
                                     </svg>
                                 </button>
+
+                                <ListTileSwitch title={"Add symbols"} subtitle={"This will add symbols like !@#$%^&*(). For more control you can add them manually"} checked={self.add_symbols} onclick={ctx.link().callback(|_| Msg::FlipAddSymbols)} />
                             </div>
                         </div>
                     </div>
