@@ -46,7 +46,7 @@ jobs:
       run: npx tailwindcss init
     
     - name: Build release
-      run: trunk build --release
+      run: trunk build --release --public-url polybius/
       working-directory: ./polybius-web
 
     - name: Configure GitHub Pages
