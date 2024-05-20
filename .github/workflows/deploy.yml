@@ -32,8 +32,11 @@ jobs:
         node-version: '20'
     
     - name: Install Tailwind CSS
-      run: npm install -g tailwindcss
+      run: npm install -D tailwindcss
       working-directory: ./polybius-web
+      
+    - name: Initialize Tailwind CSS
+      run: npx tailwindcss init
     
     - name: Build release
       run: trunk build --release
