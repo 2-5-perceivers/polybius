@@ -22,6 +22,9 @@ module.exports = {
           '1000': '#0e110f'
         },
       },
+      fontFamily: {
+        'display': ['Major Mono Display', 'monospace'],
+      }
     },
   },
   variants: {
