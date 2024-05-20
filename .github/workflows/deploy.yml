@@ -1,0 +1,45 @@
+# Github action that rans on release
+name: Deploy
+
+on:
+  push:
+    branches:
+      - stable
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+
+    - name: Install toolchain
+      uses: actions-rs/toolchain@v1
+      with:
+        toolchain: stable
+        target: wasm32-unknown-unknown
+        override: true
+        profile: minimal
+
+    - name: Install trunk
+      uses: jetli/trunk-action@v0.1.0
+      with:
+        version: 'latest'
+    
+    - name: Install npm
+      uses: actions/setup-node@v4
+      with:
+        node-version: '20'
+    
+    - name: Install Tailwind CSS
+      run: npm install -g tailwindcss
+      working-directory: ./polybius-web
+    
+    - name: Build release
+      run: trunk build --release
+      working-directory: ./polybius-web
+    
+    - name: Deploy to Github Pages
+      uses: actions/upload-pages-artifact@v3
+      with:
+        path: ./polybius-web/dist
