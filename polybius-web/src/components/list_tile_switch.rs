@@ -14,24 +14,24 @@ pub fn ListTileSwitch(props: &ListTileSwitchProps) -> Html {
     // Button clases
 
     let color_classes = if props.checked {
-        classes!("bg-primary-500")
+        classes!("bg-primary-500 dark:bg-primary-300 border-4".to_string())
     } else {
-        classes!("bg-gray-300", "dark:bg-gray-700/50")
+        classes!("bg-gray-300 dark:bg-gray-800 border-8".to_string())
     };
 
-    let mut button_classes = classes!(String::from("relative inline-flex h-6 w-11 shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2"));
+    let mut button_classes = classes!("relative inline-flex h-8 w-13 shrink-0 cursor-pointer rounded-full border-transparent transition-colors duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2".to_string());
 
     button_classes.extend(color_classes);
 
     // Toggle classes
 
     let position_classes = if props.checked {
-        classes!("translate-x-5")
+        classes!("translate-x-5 w-6 h-6 bg-primary-100 dark:bg-primary-800".to_string())
     } else {
-        classes!("translate-x-0")
+        classes!("translate-x-0 w-4 h-4 bg-gray-700 dark:bg-gray-400".to_string())
     };
 
-    let mut toggle_classes = classes!(String::from("pointer-events-none inline-block h-5 w-5 rounded-full bg-primary-50 shadow ring-0 transition duration-200 ease-in-out"));
+    let mut toggle_classes = classes!(String::from("pointer-events-none inline-block rounded-full shadow ring-0 transition duration-200 ease-in-out"));
 
     toggle_classes.extend(position_classes);
 

@@ -24,7 +24,10 @@ module.exports = {
       },
       fontFamily: {
         'display': ['Major Mono Display', 'monospace'],
-      }
+      },
+      width: {
+        '13': '3.25rem',
+      },
     },
   },
   variants: {
