@@ -1,6 +1,6 @@
 use rand::Rng;
 
-use crate::user_data::Number;
+use crate::password_data::Number;
 
 /// A struct that represents a password bit, consisting of a two-character string and its importance to the user
 pub struct PasswordBit {
@@ -9,6 +9,8 @@ pub struct PasswordBit {
     /// The importance of the password bit to the user (as a string)
     pub importance: String,
 }
+
+pub type PasswordBits = Vec<PasswordBit>;
 
 impl PasswordBit {
     /// Create a new PasswordBits instance
@@ -21,14 +23,6 @@ impl PasswordBit {
     /// This function takes a `Number` as input and returns a `PasswordBit` instance
     /// with the `bits` field set to the last two digits of the number and the `importance`
     /// field set to the string representation of the number's `num_type`.
-    ///
-    /// # Arguments
-    ///
-    /// * `number` - The `Number` to convert to a `PasswordBit`
-    ///
-    /// # Returns
-    ///
-    /// A `PasswordBit` instance with the `bits` and `importance` fields set accordingly.
     pub fn number_bit(number: &Number) -> PasswordBit {
         PasswordBit {
             bits: Self::number_to_bit(&number.value),
@@ -53,6 +47,22 @@ impl PasswordBit {
         PasswordBit {
             bits,
             importance: string.to_string(),
+        }
+    }
+
+    /// Create a new PasswordBit instance from a symbol. It randomly selects one of the symbols from the list.
+    /// The list is !, @, #, $, %, ^, &, *, (, ), -, _, +, =
+    pub fn symbol_bit() -> PasswordBit {
+        let mut rng = rand::thread_rng();
+
+        // The default symbols to choose from. Based on the International Keyboard Layout top row. To be easily typed by the user.
+        let symbols = vec![
+            '!', '@', '#', '$', '%', '^', '&', '*', '(', ')', '-', '_', '+', '=',
+        ];
+        let bits = symbols[rng.gen_range(0..symbols.len())];
+        PasswordBit {
+            bits: bits.to_string(),
+            importance: "Symbol".to_string(),
         }
     }
 }
