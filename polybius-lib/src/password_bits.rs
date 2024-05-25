@@ -86,3 +86,137 @@ impl PasswordBit {
         }
     }
 }
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    #[test]
+    fn test_new_password_bit() {
+        let password_bit = PasswordBit::new("ab".to_string(), "abc".to_string());
+        assert_eq!(password_bit.bits, "ab");
+        assert_eq!(password_bit.importance, "abc");
+    }
+
+    #[test]
+    fn test_number_bit() {
+        let number_1 = Number {
+            value: 123,
+            num_type: NumberType::BirthDay,
+        };
+        let number_2 = Number {
+            value: 456,
+            num_type: NumberType::BirthMonth,
+        };
+        let number_3 = Number {
+            value: 1999,
+            num_type: NumberType::BirthYear,
+        };
+        let number_4 = Number {
+            value: 2024,
+            num_type: NumberType::CurrentYear,
+        };
+        let number_5 = Number {
+            value: 12345,
+            num_type: NumberType::RelevantNumber,
+        };
+
+        let password_bit_1 = PasswordBit::number_bit(&number_1);
+        let password_bit_2 = PasswordBit::number_bit(&number_2);
+        let password_bit_3 = PasswordBit::number_bit(&number_3);
+        let password_bit_4 = PasswordBit::number_bit(&number_4);
+        let password_bit_5 = PasswordBit::number_bit(&number_5);
+
+        assert_eq!(
+            password_bit_1.bits, "23",
+            "Expected: 23, got: {}",
+            password_bit_1.bits
+        );
+        assert_eq!(
+            password_bit_1.importance, "Birth Day",
+            "Expected: Birth Day, got: {}",
+            password_bit_1.importance
+        );
+
+        assert_eq!(
+            password_bit_2.bits, "56",
+            "Expected: 56, got: {}",
+            password_bit_2.bits
+        );
+        assert_eq!(
+            password_bit_2.importance, "Birth Month",
+            "Expected: Birth Month, got: {}",
+            password_bit_2.importance
+        );
+
+        assert!(
+            password_bit_3.bits == "99" || password_bit_3.bits == "1999",
+            "Expected: 99 or 1999, got: {}",
+            password_bit_3.bits
+        );
+        assert_eq!(
+            password_bit_3.importance, "Birth Year",
+            "Expected: Birth Year, got: {}",
+            password_bit_3.importance
+        );
+
+        assert!(
+            password_bit_4.bits == "24" || password_bit_4.bits == "2024",
+            "Expected: 24 or 2024, got: {}",
+            password_bit_4.bits
+        );
+        assert_eq!(
+            password_bit_4.importance, "Current Year",
+            "Expected: Current Year, got: {}",
+            password_bit_4.importance
+        );
+
+        assert_eq!(
+            password_bit_5.bits, "12345",
+            "Expected: 12345, got: {}",
+            password_bit_5.bits
+        );
+        assert_eq!(
+            password_bit_5.importance, "Relevant Number",
+            "Expected: Relevant Number, got: {}",
+            password_bit_5.importance
+        );
+    }
+
+    #[test]
+    fn test_truncate_number() {
+        assert_eq!(PasswordBit::truncate_number(&0), "00");
+        assert_eq!(PasswordBit::truncate_number(&1), "01");
+        assert_eq!(PasswordBit::truncate_number(&9), "09");
+        assert_eq!(PasswordBit::truncate_number(&10), "10");
+        assert_eq!(PasswordBit::truncate_number(&99), "99");
+        assert_eq!(PasswordBit::truncate_number(&100), "00");
+        assert_eq!(PasswordBit::truncate_number(&2000), "00");
+    }
+
+    #[test]
+    fn test_string_bit() {
+        let password_bit = PasswordBit::string_bit("hello");
+        assert!(
+            password_bit.bits.len() >= 1 && password_bit.bits.len() <= 3,
+            "Expected password bits to be between 1 and 3 characters, got: {}",
+            password_bit.bits
+        );
+        assert!(
+            "hello".starts_with(&password_bit.bits),
+            "Expected passwords bits to be h/he/hel, got: {}",
+            password_bit.bits
+        );
+        assert_eq!(password_bit.importance, "hello");
+    }
+
+    #[test]
+    fn test_symbol_bit() {
+        let password_bit = PasswordBit::symbol_bit();
+        let symbols = vec![
+            "!", "@", "#", "$", "%", "^", "&", "*", "(", ")", "-", "_", "+", "=",
+        ];
+        assert!(symbols.contains(&password_bit.bits.as_str()));
+        assert_eq!(password_bit.importance, "Symbol");
+    }
+}

@@ -52,3 +52,46 @@ impl PasswordGeneration for PasswordData {
         bits
     }
 }
+
+#[cfg(test)]
+mod tests {
+    use crate::password_data::{Number, NumberType};
+
+    use super::*;
+
+    #[test]
+    fn test_generate_password_empty() {
+        let password_data = PasswordData::new(
+            [Number::new(1, NumberType::RelevantNumber)].to_vec(),
+            ["a".to_string()].to_vec(),
+        );
+        let generation_settings = GenerationSettings {
+            length: 0,
+            symbols: true,
+        };
+        let password_bits = password_data.generate_password(&generation_settings);
+        assert_eq!(password_bits.len(), 0);
+    }
+
+    #[test]
+    fn test_generate_password_no_symbols() {
+        let password_data = PasswordData::new(
+            [Number::new(1, NumberType::RelevantNumber)].to_vec(),
+            ["a".to_string()].to_vec(),
+        );
+        let generation_settings = GenerationSettings {
+            length: 50, // Increase the length to make the test more reliable
+            symbols: false,
+        };
+        let password_bits = password_data.generate_password(&generation_settings);
+        let symbols = vec![
+            "!", "@", "#", "$", "%", "^", "&", "*", "(", ")", "-", "_", "+", "=",
+        ];
+
+        for bit in password_bits {
+            if symbols.contains(&bit.bits.as_str()) {
+                panic!("Found symbol: {}", bit.bits);
+            }
+        }
+    }
+}
