@@ -1,6 +1,6 @@
 use rand::Rng;
 
-use crate::password_data::Number;
+use crate::password_data::{Number, NumberType};
 
 /// A struct that represents a password bit, consisting of a two-character string and its importance to the user
 pub struct PasswordBit {
@@ -25,15 +25,35 @@ impl PasswordBit {
     /// field set to the string representation of the number's `num_type`.
     pub fn number_bit(number: &Number) -> PasswordBit {
         PasswordBit {
-            bits: Self::number_to_bit(&number.value),
+            bits: Self::number_to_bit(&number.value, &number.num_type),
             importance: number.num_type.to_string(),
         }
     }
 
-    fn number_to_bit(number: &u16) -> String {
-        // If the number is longer that 2 digits, we only take the last 2 digits. Ensure that if the number is less the 10 we add a 0 in front of it.
+    fn number_to_bit(number: &u16, number_type: &NumberType) -> String {
+        // If the number type is BirthMonth or BirthDay, we only want two digits with a leading 0 if the case.
+        // If the number type is BirthYear or CurrentYear, we want to randomly choose between the full year or the last two digits.
+        // If the number type is RelevantNumber, we want the full number.
+        match number_type {
+            NumberType::BirthMonth | NumberType::BirthDay => Self::truncate_number(number),
+            NumberType::BirthYear | NumberType::CurrentYear => {
+                let mut rng = rand::thread_rng();
+                if rng.gen::<bool>() {
+                    number.to_string()
+                } else {
+                    Self::truncate_number(number)
+                }
+            }
+            NumberType::RelevantNumber => number.to_string(),
+        }
+    }
+
+    /// Truncate a number to a two digits string. If less then 10, add a leading 0.
+    fn truncate_number(number: &u16) -> String {
         let number = number % 100;
-        if number < 10 {
+        if number == 0 {
+            return "00".to_string();
+        } else if number < 10 {
             format!("0{}", number)
         } else {
             number.to_string()
