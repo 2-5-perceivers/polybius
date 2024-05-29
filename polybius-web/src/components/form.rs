@@ -12,6 +12,8 @@ use crate::{
 pub enum Msg {
     AddNumericInput,
     AddStringInput,
+    RemoveNumericInput(usize),
+    RemoveStringInput(usize),
     UpdateNumericValueInput(usize, u16),
     UpdateNumericTypeInput(usize, NumberType),
     UpdateStringInput(usize, String),
@@ -46,6 +48,12 @@ impl Component for FormComponent {
             }
             Msg::AddStringInput => {
                 self.string_values.push(String::new());
+            }
+            Msg::RemoveNumericInput(index) => {
+                self.numeric_values.remove(index);
+            }
+            Msg::RemoveStringInput(index) => {
+                self.string_values.remove(index);
             }
             Msg::UpdateNumericValueInput(index, value) => {
                 self.numeric_values[index].value = value;
@@ -85,6 +93,7 @@ impl Component for FormComponent {
                             let input: HtmlInputElement = e.target_unchecked_into();
                             Msg::UpdateNumericTypeInput(index, NumberType::from_string(&input.value()))
                         })}
+                        ondelete={ctx.link().callback(move |_| Msg::RemoveNumericInput(index))}
                     />
                 }
             });
@@ -95,13 +104,15 @@ impl Component for FormComponent {
             .enumerate()
             .map(|(index, string)| {
                 html! {
-                <InputString
-                    string={string.clone()}
-                    oninput={ctx.link().callback(move |e: InputEvent| {
-                        let input: HtmlInputElement = e.target_unchecked_into();
-                        Msg::UpdateStringInput(index, input.value())
-                    })}
-                /> }
+                    <InputString
+                        string={string.clone()}
+                        oninput={ctx.link().callback(move |e: InputEvent| {
+                            let input: HtmlInputElement = e.target_unchecked_into();
+                            Msg::UpdateStringInput(index, input.value())
+                        })}
+                        ondelete={ctx.link().callback(move |_| Msg::RemoveStringInput(index))}
+                    />
+                }
             });
 
         html! {
