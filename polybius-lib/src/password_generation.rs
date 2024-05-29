@@ -37,13 +37,15 @@ impl PasswordGeneration for PasswordData {
                     bits.push(PasswordBit::symbol_bit());
                 }
                 1 => {
-                    let number = self.numbers_poll.choose(&mut rng).unwrap();
-                    bits.push(PasswordBit::number_bit(number));
+                    if let Some(number) = self.numbers_poll.choose(&mut rng) {
+                        bits.push(PasswordBit::number_bit(number));
+                    }
                 }
                 // Increase the probability of choosing a string
                 _ => {
-                    let text = self.text_poll.choose(&mut rng).unwrap();
-                    bits.push(PasswordBit::string_bit(text));
+                    if let Some(text) = self.text_poll.choose(&mut rng) {
+                        bits.push(PasswordBit::string_bit(text));
+                    }
                 }
             }
         }
