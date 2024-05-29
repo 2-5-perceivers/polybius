@@ -1,16 +1,19 @@
-use polybius_lib::user_data::{NumType, Number};
+use polybius_lib::password_data::{Number, NumberType};
 use web_sys::{console, HtmlInputElement};
 use yew::prelude::*;
 
-use crate::components::{
-    input_numeric::InputNumeric, input_string::InputString, list_tile_switch::ListTileSwitch,
+use crate::{
+    components::{
+        input_numeric::InputNumeric, input_string::InputString, list_tile_switch::ListTileSwitch,
+    },
+    traits::data_serialization::DataSerialization,
 };
 
 pub enum Msg {
     AddNumericInput,
     AddStringInput,
     UpdateNumericValueInput(usize, u16),
-    UpdateNumericTypeInput(usize, NumType),
+    UpdateNumericTypeInput(usize, NumberType),
     UpdateStringInput(usize, String),
     FlipAddYear,
     FlipAddSymbols,
@@ -80,7 +83,7 @@ impl Component for FormComponent {
                         })}
                         onselect={ctx.link().callback(move |e: InputEvent| {
                             let input: HtmlInputElement = e.target_unchecked_into();
-                            Msg::UpdateNumericTypeInput(index, NumType::from_string(&input.value()))
+                            Msg::UpdateNumericTypeInput(index, NumberType::from_string(&input.value()))
                         })}
                     />
                 }

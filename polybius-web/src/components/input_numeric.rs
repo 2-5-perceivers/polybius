@@ -1,5 +1,7 @@
-use polybius_lib::user_data::{NumType, Number};
+use polybius_lib::password_data::{Number, NumberType};
 use yew::prelude::*;
+
+use crate::traits::data_serialization::DataSerialization;
 
 #[derive(Properties, PartialEq, Clone)]
 pub struct NumericInput {
@@ -14,7 +16,7 @@ pub fn input_numeric(props: &NumericInput) -> Html {
     let oninput = props.oninput.clone();
     let onselect = props.onselect.clone();
 
-    let num_type_options = [NumType::RelevantNumber, NumType::BirthYear, NumType::BirthMonth, NumType::BirthDay].into_iter().map(|num_type| {
+    let num_type_options = [NumberType::RelevantNumber, NumberType::BirthYear, NumberType::BirthMonth, NumberType::BirthDay].into_iter().map(|num_type| {
         html! {
             <option class="text-primary-900" value={num_type.into_string()} selected={value.num_type == num_type}>{num_type.to_string()}</option>
         }

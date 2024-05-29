@@ -1,5 +1,16 @@
 mod app;
-mod components;
+
+mod components {
+    pub mod form;
+    pub mod input_numeric;
+    pub mod input_string;
+    pub mod list_tile_switch;
+    pub mod navbar;
+}
+
+mod traits {
+    pub mod data_serialization;
+}
 
 use app::App;
 
