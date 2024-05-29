@@ -1,4 +1,11 @@
-use polybius_lib::password_data::{Number, NumberType};
+use core::num;
+
+use chrono::Datelike;
+use polybius_lib::{
+    password_bits::PasswordBits,
+    password_data::{Number, NumberType, PasswordData},
+    password_generation::{GenerationSettings, PasswordGeneration},
+};
 use web_sys::{console, HtmlInputElement};
 use yew::prelude::*;
 
@@ -19,6 +26,7 @@ pub enum Msg {
     UpdateStringInput(usize, String),
     FlipAddYear,
     FlipAddSymbols,
+    GeneratePasswords,
 }
 
 pub struct FormComponent {
@@ -26,6 +34,7 @@ pub struct FormComponent {
     pub string_values: Vec<String>,
     pub add_year: bool,
     pub add_symbols: bool,
+    pub passwords: Option<Vec<PasswordBits>>,
 }
 
 impl Component for FormComponent {
@@ -38,6 +47,7 @@ impl Component for FormComponent {
             string_values: vec![],
             add_year: false,
             add_symbols: true,
+            passwords: None,
         }
     }
 
@@ -71,6 +81,33 @@ impl Component for FormComponent {
             }
             Msg::FlipAddSymbols => {
                 self.add_symbols = !self.add_symbols;
+            }
+            Msg::GeneratePasswords => {
+                let mut passwords: Vec<PasswordBits> = vec![];
+                let numbers: Vec<Number> = {
+                    if self.add_year {
+                        let current_year = chrono::Local::now().year();
+                        vec![
+                            vec![Number::new(current_year as u16, NumberType::CurrentYear)],
+                            self.numeric_values.clone(),
+                        ]
+                        .concat()
+                    } else {
+                        self.numeric_values.clone()
+                    }
+                };
+                let password_data = PasswordData::new(numbers, self.string_values.clone());
+                let password_settings = GenerationSettings {
+                    length: 10, // Test value
+                    symbols: self.add_symbols,
+                };
+
+                // Generate the passwords
+                for _ in 0..10 {
+                    passwords.push(password_data.generate_password(&password_settings));
+                }
+
+                self.passwords = Some(passwords);
             }
         }
         true
@@ -159,7 +196,21 @@ impl Component for FormComponent {
                         </div>
                     </div>
 
-                    <button class="polybius-button float-right px-8">{"Generate passwords"}</button>
+                    <button
+                        class="polybius-button float-right px-8"
+                        onclick={ctx.link().callback(|_| {
+                            Msg::GeneratePasswords
+                        })}
+                    >
+                        {"Generate passwords"}
+                    </button>
+
+                    if let Some(passwords) = &self.passwords {
+                        <div>
+                            { for passwords.iter().map(|password| html! { <p class="dark:text-gray-100">{ password.iter().map(|e| e.bits.to_string()).collect::<String>() }</p> }) }
+                        </div>
+                    }
+
                 </div>
             </form>
         }
