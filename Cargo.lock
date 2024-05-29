@@ -804,7 +804,6 @@ name = "polybius-lib"
 version = "0.1.0"
 dependencies = [
  "anyhow",
- "chrono",
  "rand",
 ]
 
@@ -812,6 +811,7 @@ dependencies = [
 name = "polybius-web"
 version = "0.1.0"
 dependencies = [
+ "chrono",
  "getrandom",
  "polybius-lib",
  "web-sys",
