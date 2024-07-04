@@ -11,7 +11,8 @@ use yew::prelude::*;
 
 use crate::{
     components::{
-        input_numeric::InputNumeric, input_string::InputString, list_tile_switch::ListTileSwitch,
+        input_bits::InputBits, input_numeric::InputNumeric, input_string::InputString,
+        list_tile_switch::ListTileSwitch,
     },
     traits::data_serialization::DataSerialization,
 };
@@ -24,6 +25,7 @@ pub enum Msg {
     UpdateNumericValueInput(usize, u16),
     UpdateNumericTypeInput(usize, NumberType),
     UpdateStringInput(usize, String),
+    UpdatePasswordBits(usize),
     FlipAddYear,
     FlipAddSymbols,
     GeneratePasswords,
@@ -34,6 +36,7 @@ pub struct FormComponent {
     pub string_values: Vec<String>,
     pub add_year: bool,
     pub add_symbols: bool,
+    pub password_bits: usize,
     pub passwords: Option<Vec<PasswordBits>>,
 }
 
@@ -47,6 +50,7 @@ impl Component for FormComponent {
             string_values: vec![],
             add_year: false,
             add_symbols: true,
+            password_bits: 8,
             passwords: None,
         }
     }
@@ -82,6 +86,9 @@ impl Component for FormComponent {
             Msg::FlipAddSymbols => {
                 self.add_symbols = !self.add_symbols;
             }
+            Msg::UpdatePasswordBits(vaue) => {
+                self.password_bits = vaue;
+            }
             Msg::GeneratePasswords => {
                 let mut passwords: Vec<PasswordBits> = vec![];
                 let numbers: Vec<Number> = {
@@ -98,7 +105,7 @@ impl Component for FormComponent {
                 };
                 let password_data = PasswordData::new(numbers, self.string_values.clone());
                 let password_settings = GenerationSettings {
-                    length: 10, // Test value
+                    length: self.password_bits, // Test value
                     symbols: self.add_symbols,
                 };
 
@@ -195,6 +202,11 @@ impl Component for FormComponent {
                             </div>
                         </div>
                     </div>
+
+                    <InputBits bits={self.password_bits} oninput={ctx.link().callback(move |e: InputEvent| {
+                        let input: HtmlInputElement = e.target_unchecked_into();
+                        Msg::UpdatePasswordBits(input.value().parse().unwrap_or(8))
+                    })}/>
 
                     <button
                         class="polybius-button float-right px-8"
