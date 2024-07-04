@@ -2,6 +2,7 @@ mod app;
 
 mod components {
     pub mod form;
+    pub mod github_logo;
     pub mod input_bits;
     pub mod input_numeric;
     pub mod input_string;
