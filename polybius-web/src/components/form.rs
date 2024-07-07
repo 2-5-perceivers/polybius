@@ -1,5 +1,3 @@
-use core::num;
-
 use chrono::Datelike;
 use polybius_lib::{
     password_bits::PasswordBits,
@@ -208,14 +206,16 @@ impl Component for FormComponent {
                         Msg::UpdatePasswordBits(input.value().parse().unwrap_or(8))
                     })}/>
 
-                    <button
-                        class="polybius-button float-right px-8"
-                        onclick={ctx.link().callback(|_| {
-                            Msg::GeneratePasswords
-                        })}
-                    >
-                        {"Generate passwords"}
-                    </button>
+                    <div class="pb-8 flex justify-end">
+                        <button
+                            class="polybius-button "
+                            onclick={ctx.link().callback(|_| {
+                                Msg::GeneratePasswords
+                            })}
+                        >
+                            {"Generate passwords"}
+                        </button>
+                    </div>
 
                     if let Some(passwords) = &self.passwords {
                         <div>
