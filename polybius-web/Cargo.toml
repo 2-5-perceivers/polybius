@@ -1,11 +1,11 @@
 [package]
 name = "polybius-web"
-version = "0.1.0"
+version = "1.0.0"
 edition = "2021"
 
 [dependencies]
 yew = { version="0.21.0", features=["csr"] }
-web-sys = "0.3.69"
+web-sys = {version="0.3.70", features=["Clipboard", "Navigator"]}
 polybius-lib = { path = "../polybius-lib" }
 getrandom = { version = "0.2.15", features = ["js"] }
 chrono = "0.4.38"
