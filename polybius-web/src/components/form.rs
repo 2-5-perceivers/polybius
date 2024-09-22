@@ -219,8 +219,17 @@ impl Component for FormComponent {
 
                     if let Some(passwords) = &self.passwords {
                         <div>
-                            { for passwords.iter().map(|password| html! { <PasswordViewer password={password.clone()}/> }) }
+                            { for passwords.iter().map(|password| html! {
+                                <>
+                                    <PasswordViewer password={password.clone()}/>
+                                    <div class="border-b border-neutral-900/10 dark:border-neutral-100/10" />
+                                </>
+                            }) }
                         </div>
+
+                        <p class="py-2 text-sm leading-5 text-neutral-600 dark:text-neutral-400">
+                            {"Hover over each bit to see its importance for you."}
+                        </p>
                     }
 
                 </div>
