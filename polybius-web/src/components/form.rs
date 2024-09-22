@@ -160,13 +160,13 @@ impl Component for FormComponent {
         html! {
             <form onsubmit={|e: SubmitEvent| e.prevent_default()} class="w-full sm:max-w-screen-sm md:max-w-screen-md lg:max-w-screen-lg mx-auto px-4 sm:px-5 lg:px-8">
                 <div class="space-y-8">
-                    <div class="border-b border-gray-900/10 dark:border-gray-100/10 pb-8">
-                        <h2 class="text-base font-semibold leading-7 text-gray-900 dark:text-gray-100">{"Information"}</h2>
-                        <p class="mt-1 text-sm leading-6 text-gray-600 dark:text-gray-400">{"This information will be used to generate a memorable random password for you. This data is not leaving the browser."}</p>
+                    <div class="border-b border-neutral-900/10 dark:border-neutral-100/10 pb-8">
+                        <h2 class="text-base font-semibold leading-7 text-neutral-900 dark:text-neutral-100">{"Information"}</h2>
+                        <p class="mt-1 text-sm leading-6 text-neutral-600 dark:text-neutral-400">{"This information will be used to generate a memorable random password for you. This data is not leaving the browser."}</p>
 
                         <div class="mt-10 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
                             <div class="sm:col-span-6 lg:col-span-3">
-                                <h3 class="text-base font-semibold leading-7 text-gray-900 dark:text-gray-100">{"Numeric information"}</h3>
+                                <h3 class="text-base font-semibold leading-7 text-neutral-900 dark:text-neutral-100">{"Numeric information"}</h3>
 
                                 <div class="flex flex-col gap-2">
                                     { for numeric_inputs }
@@ -183,7 +183,7 @@ impl Component for FormComponent {
                             </div>
 
                             <div class="sm:col-span-6 lg:col-span-3">
-                                <h3 class="text-base font-semibold leading-7 text-gray-900 dark:text-gray-100">{"Text information"}</h3>
+                                <h3 class="text-base font-semibold leading-7 text-neutral-900 dark:text-neutral-100">{"Text information"}</h3>
 
                                 <div class="flex flex-col gap-2">
                                     { for string_inputs }
