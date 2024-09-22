@@ -2,6 +2,7 @@ mod app;
 
 mod components {
     pub mod copy_icon;
+    pub mod footer;
     pub mod form;
     pub mod github_logo;
     pub mod input_bits;

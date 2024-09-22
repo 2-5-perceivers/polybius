@@ -1,6 +1,6 @@
 use yew::prelude::*;
 
-use crate::components::{form::FormComponent, navbar::NavBar};
+use crate::components::{footer::Footer, form::FormComponent, navbar::NavBar};
 
 #[function_component]
 pub fn App() -> Html {
@@ -10,6 +10,7 @@ pub fn App() -> Html {
             <main class="pt-16">
                 <FormComponent />
             </main>
+            <Footer />
         </>
     }
 }

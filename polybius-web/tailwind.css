@@ -22,4 +22,21 @@
   .polybius-password-bits-flex {
     @apply flex gap-2 h-min;
   }
+
+  .footer-brand-name {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border-width: 0;
+  }
+
+  .footer-brand-icon{
+    width: 1.5rem;
+    height: 1.5rem;
+}
 }
