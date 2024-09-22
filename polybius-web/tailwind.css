@@ -14,4 +14,12 @@
   .polybius-button {
     @apply flex items-center justify-center px-4 py-2 mt-4 text-sm font-semibold text-primary-800 bg-primary-300 dark:text-primary-50 dark:bg-primary-600 border border-transparent rounded-xl hover:bg-primary-400 dark:hover:bg-primary-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-500 dark:focus:ring-primary-200;
   }
+
+  .polybius-password-bit {
+    @apply shadow rounded bg-primary-100 dark:bg-primary-950 py-2 px-4;
+  }
+  
+  .polybius-password-bits-flex {
+    @apply flex gap-2 h-min;
+  }
 }

@@ -1,6 +1,7 @@
 mod app;
 
 mod components {
+    pub mod copy_icon;
     pub mod form;
     pub mod github_logo;
     pub mod input_bits;
@@ -8,6 +9,7 @@ mod components {
     pub mod input_string;
     pub mod list_tile_switch;
     pub mod navbar;
+    pub mod password_viewer;
 }
 
 mod traits {

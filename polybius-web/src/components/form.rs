@@ -10,7 +10,7 @@ use yew::prelude::*;
 use crate::{
     components::{
         input_bits::InputBits, input_numeric::InputNumeric, input_string::InputString,
-        list_tile_switch::ListTileSwitch,
+        list_tile_switch::ListTileSwitch, password_viewer::PasswordViewer,
     },
     traits::data_serialization::DataSerialization,
 };
@@ -219,7 +219,7 @@ impl Component for FormComponent {
 
                     if let Some(passwords) = &self.passwords {
                         <div>
-                            { for passwords.iter().map(|password| html! { <p class="dark:text-gray-100">{ password.iter().map(|e| e.bits.to_string()).collect::<String>() }</p> }) }
+                            { for passwords.iter().map(|password| html! { <PasswordViewer password={password.clone()}/> }) }
                         </div>
                     }
 

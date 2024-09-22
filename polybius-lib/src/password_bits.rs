@@ -3,6 +3,7 @@ use rand::Rng;
 use crate::password_data::{Number, NumberType};
 
 /// A struct that represents a password bit, consisting of a two-character string and its importance to the user
+#[derive(Debug, PartialEq, Clone)]
 pub struct PasswordBit {
     /// The two-character string representing a password bit
     pub bits: String,
